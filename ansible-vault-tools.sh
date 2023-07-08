@@ -24,6 +24,10 @@ elif [[ $CMD == "decrypt" ]]; then
 
 else
     echo "Invalid command"
+    echo ""
+    echo "Usage:"
+    echo "ansible-vault-tools encrypt <password>"
+    echo "ansible-vault-tools decrypt <host> <variable>"
     exit 1
 fi
 
