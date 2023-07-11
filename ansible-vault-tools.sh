@@ -6,13 +6,13 @@
 
 CMD=$1
 
-# Encrypt
-if [[ $CMD == "encrypt" ]]; then
+# Encrypt string
+if [[ $CMD == "encrypt-string" ]]; then
     pass=$2
     vaultpw=$(echo -n "$pass" | ansible-vault encrypt_string 2> /dev/null)
 
-# Decrypt
-elif [[ $CMD == "decrypt" ]]; then
+# Decrypt string
+elif [[ $CMD == "decrypt-string" ]]; then
     host=$2
     var=$3
 
@@ -22,12 +22,25 @@ elif [[ $CMD == "decrypt" ]]; then
     # Parse JSON to just get the "msg"
     vaultpw=$(jq -r ".plays[].tasks[].hosts[].msg" <<< "$vaultpw")
 
+# Encrypt file
+elif [[ $CMD == "encrypt-file" ]]; then
+    file=$2
+    ansible-vault encrypt "$file"
+
+# Decrypt file
+elif [[ $CMD == "decrypt-file" ]]; then
+    file=$2
+    ansible-vault decrypt "$file"
+
 else
     echo "Invalid command"
     echo ""
     echo "Usage:"
-    echo "ansible-vault-tools encrypt <password>"
-    echo "ansible-vault-tools decrypt <host> <variable>"
+    echo "ansible-vault-tools encrypt-string <password>"
+    echo "ansible-vault-tools decrypt-string <host> <variable>"
+    echo ""
+    echo "ansible-vault-tools encrypt-file <file-path>"
+    echo "ansible-vault-tools decrypt-file <file-path>"
     exit 1
 fi
 
