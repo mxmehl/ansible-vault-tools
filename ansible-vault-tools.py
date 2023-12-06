@@ -132,8 +132,8 @@ def decrypt_file(filename: str) -> str:
             ["ansible-vault", "decrypt", filename], check=True, capture_output=True
         )
         return f"Decrypted '{filename}' successfully"
-    else:
-        return f"File '{filename}' was not changed"
+
+    return f"File '{filename}' was not changed"
 
 
 def encrypt_file(filename: str) -> str:
@@ -176,8 +176,8 @@ def decrypt_string(host, var) -> str:
 
     # Attempt to create a :-separated list of host/values
     output = {}
-    for host, values in ansible_output.items():
-        output[host] = convert_ansible_errors(values["msg"])
+    for hostname, values in ansible_output.items():
+        output[hostname] = convert_ansible_errors(values["msg"])
 
     return format_data(output)
 
