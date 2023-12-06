@@ -41,7 +41,16 @@ parser_decrypt.add_argument(
 )
 
 
-def encrypt(password):
+def convert_ansible_errors(error: str) -> str:
+    """Convert typical Ansible errors to more user-friendly messages"""
+    if "The task includes an option with an undefined variable" in error:
+        return "(undefined variable)"
+
+    # If no conversion was possible, return the original error
+    return error
+
+
+def encrypt_string(password):
     """Encrypt string with ansible-vault"""
     result = subprocess.run(
         ["ansible-vault", "encrypt_string"],
@@ -52,7 +61,20 @@ def encrypt(password):
     return result.stdout.strip()
 
 
-def decrypt(host, var):
+def format_data(data: dict) -> str:
+    """Format data nicely in columns"""
+    if len(data) > 1:
+        max_key_length = max(len(key) for key in data.keys())
+
+        formatted_strings = [f"{key.ljust(max_key_length)}: {value}" for key, value in data.items()]
+    else:
+        # If only one host, return the single value
+        formatted_strings = list(data.values())
+
+    return "\n".join(formatted_strings)
+
+
+def decrypt_string(host, var):
     """Decrypt/print a variable from one or multiple hosts"""
     # Run ansible msg for variable
     # Send return as JSON
@@ -61,21 +83,17 @@ def decrypt(host, var):
         "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
         "ANSIBLE_STDOUT_CALLBACK": "json",
     }
-    result = subprocess.run(
-        ansible_command, env=ansible_env, capture_output=True, text=True
-    )
+    result = subprocess.run(ansible_command, env=ansible_env, capture_output=True, text=True)
 
-    # Parse JSON to just get the "msg"
-    ansible_output = json.loads(result.stdout)
-    msg = [
-        host["msg"]
-        for play in ansible_output["plays"]
-        for task in play["tasks"]
-        for host in task["hosts"].values()
-    ]
+    # Parse JSON
+    ansible_output = json.loads(result.stdout)["plays"][0]["tasks"][0]["hosts"]
 
-    # Pretty print the JSON
-    return json.dumps(msg, indent=2)
+    # Attempt to create a :-separated list of host/values
+    output = {}
+    for host, values in ansible_output.items():
+        output[host] = convert_ansible_errors(values["msg"])
+
+    return format_data(output)
 
 
 def main():
@@ -83,14 +101,12 @@ def main():
     args = parser.parse_args()
 
     if args.command == "encrypt":
-        password = (
-            input("Enter string: ") if not args.encrypt_string else args.encrypt_string
-        )
-        vaultpw = encrypt(password)
+        password = input("Enter string: ") if not args.encrypt_string else args.encrypt_string
+        vaultpw = encrypt_string(password)
     elif args.command == "decrypt":
         host = input("Enter host: ") if not args.decrypt_host else args.decrypt_host
         var = input("Enter variable: ") if not args.decrypt_var else args.decrypt_var
-        vaultpw = decrypt(host, var)
+        vaultpw = decrypt_string(host, var)
 
     print(vaultpw)
 
