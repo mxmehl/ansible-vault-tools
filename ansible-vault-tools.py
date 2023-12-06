@@ -102,6 +102,19 @@ def ask_for_confirm(question: str) -> bool:
     return answer == "y"
 
 
+def format_data(data: dict) -> str:
+    """Format data nicely in columns"""
+    if len(data) > 1:
+        max_key_length = max(len(key) for key in data.keys())
+
+        formatted_strings = [f"{key.ljust(max_key_length)}: {value}" for key, value in data.items()]
+    else:
+        # If only one host, return the single value
+        formatted_strings = list(data.values())
+
+    return "\n".join(formatted_strings)
+
+
 def encrypt_string(password: str) -> str:
     """Encrypt string with ansible-vault"""
     result = subprocess.run(
@@ -114,17 +127,50 @@ def encrypt_string(password: str) -> str:
     return result.stdout.strip()
 
 
-def format_data(data: dict) -> str:
-    """Format data nicely in columns"""
-    if len(data) > 1:
-        max_key_length = max(len(key) for key in data.keys())
+def encrypt_file(filename: str) -> str:
+    """Encrypt a file with ansible-vault"""
 
-        formatted_strings = [f"{key.ljust(max_key_length)}: {value}" for key, value in data.items()]
-    else:
-        # If only one host, return the single value
-        formatted_strings = list(data.values())
+    if not os.path.exists(filename):
+        sys.exit(f"ERROR: File '{filename}' does not exist")
 
-    return "\n".join(formatted_strings)
+    encrypted_return = subprocess.run(
+        ["ansible-vault", "encrypt", filename], check=False, capture_output=True
+    )
+
+    if encrypted_return.returncode != 0:
+        sys.exit(
+            f"ERROR: Could not encrypt file '{filename}'. This is the error:"
+            f"\n{encrypted_return.stderr.decode()}"
+        )
+
+    return f"Encrypted '{filename}' successfully"
+
+
+def decrypt_string(host, var) -> str:
+    """Decrypt/print a variable from one or multiple hosts"""
+    # Run ansible msg for variable
+    # Send return as JSON
+    ansible_command = ["ansible", host, "-m", "debug", "-a", f"var={var}"]
+    ansible_env = {
+        "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
+        "ANSIBLE_STDOUT_CALLBACK": "json",
+    }
+    result = subprocess.run(
+        ansible_command, env=ansible_env, capture_output=True, text=True, check=False
+    )
+
+    # Parse JSON
+    try:
+        ansible_output = json.loads(result.stdout)["plays"][0]["tasks"][0]["hosts"]
+    except IndexError:
+        sys.exit(f"ERROR: Host '{host}' not found.")
+
+    # Attempt to create a :-separated list of host/values
+    output = {}
+    for hostname, values in ansible_output.items():
+        output[hostname] = convert_ansible_errors(values[var])
+
+    return format_data(output)
 
 
 def decrypt_file(filename: str) -> str:
@@ -179,52 +225,6 @@ def allvars(host: str) -> str:
             sys.exit(f"ERROR: Host '{host}' not found.")
 
     return json.dumps(ansible_output, indent=2)
-
-
-def encrypt_file(filename: str) -> str:
-    """Encrypt a file with ansible-vault"""
-
-    if not os.path.exists(filename):
-        sys.exit(f"ERROR: File '{filename}' does not exist")
-
-    encrypted_return = subprocess.run(
-        ["ansible-vault", "encrypt", filename], check=False, capture_output=True
-    )
-
-    if encrypted_return.returncode != 0:
-        sys.exit(
-            f"ERROR: Could not encrypt file '{filename}'. This is the error:"
-            f"\n{encrypted_return.stderr.decode()}"
-        )
-
-    return f"Encrypted '{filename}' successfully"
-
-
-def decrypt_string(host, var) -> str:
-    """Decrypt/print a variable from one or multiple hosts"""
-    # Run ansible msg for variable
-    # Send return as JSON
-    ansible_command = ["ansible", host, "-m", "debug", "-a", f"var={var}"]
-    ansible_env = {
-        "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
-        "ANSIBLE_STDOUT_CALLBACK": "json",
-    }
-    result = subprocess.run(
-        ansible_command, env=ansible_env, capture_output=True, text=True, check=False
-    )
-
-    # Parse JSON
-    try:
-        ansible_output = json.loads(result.stdout)["plays"][0]["tasks"][0]["hosts"]
-    except IndexError:
-        sys.exit(f"ERROR: Host '{host}' not found.")
-
-    # Attempt to create a :-separated list of host/values
-    output = {}
-    for hostname, values in ansible_output.items():
-        output[hostname] = convert_ansible_errors(values[var])
-
-    return format_data(output)
 
 
 def main():
