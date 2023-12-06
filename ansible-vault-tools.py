@@ -110,7 +110,7 @@ def format_data(data: dict) -> str:
     return "\n".join(formatted_strings)
 
 
-def decrypt_file(filename) -> None:
+def decrypt_file(filename: str) -> str:
     """Decrypt file with ansible-vault"""
 
     if not os.path.exists(filename):
@@ -131,6 +131,28 @@ def decrypt_file(filename) -> None:
         decrypted_content = subprocess.run(
             ["ansible-vault", "decrypt", filename], check=True, capture_output=True
         )
+        return f"Decrypted '{filename}' successfully"
+    else:
+        return f"File '{filename}' was not changed"
+
+
+def encrypt_file(filename: str) -> str:
+    """Encrypt a file with ansible-vault"""
+
+    if not os.path.exists(filename):
+        sys.exit(f"ERROR: File '{filename}' does not exist")
+
+    encrypted_return = subprocess.run(
+        ["ansible-vault", "encrypt", filename], check=False, capture_output=True
+    )
+
+    if encrypted_return.returncode != 0:
+        sys.exit(
+            f"ERROR: Could not encrypt file '{filename}'. This is the error:"
+            f"\n{encrypted_return.stderr.decode()}"
+        )
+
+    return f"Encrypted '{filename}' successfully"
 
 
 def decrypt_string(host, var) -> str:
@@ -172,7 +194,7 @@ def main():
             output = encrypt_string(password)
         elif args.encrypt_file:
             filename = input("Enter filename: ") if not args.encrypt_file else args.encrypt_file
-            # TODO
+            output = encrypt_file(filename)
     # DECRYPTION
     elif args.command == "decrypt":
         if args.decrypt_host:
@@ -181,7 +203,7 @@ def main():
             output = decrypt_string(host, var)
         elif args.decrypt_file:
             filename = input("Enter filename: ") if not args.decrypt_file else args.decrypt_file
-            decrypt_file(filename)
+            output = decrypt_file(filename)
 
     if output:
         print(output)
