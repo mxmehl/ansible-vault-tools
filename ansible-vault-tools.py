@@ -86,7 +86,11 @@ def decrypt_string(host, var):
     result = subprocess.run(ansible_command, env=ansible_env, capture_output=True, text=True)
 
     # Parse JSON
-    ansible_output = json.loads(result.stdout)["plays"][0]["tasks"][0]["hosts"]
+    try:
+        ansible_output = json.loads(result.stdout)["plays"][0]["tasks"][0]["hosts"]
+    except IndexError:
+        print(f"ERROR: Host '{host}' not found.")
+        return ""
 
     # Attempt to create a :-separated list of host/values
     output = {}
