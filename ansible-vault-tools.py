@@ -77,7 +77,7 @@ parser_allvars.add_argument(
 
 def convert_ansible_errors(error: str) -> str:
     """Convert typical Ansible errors to more user-friendly messages"""
-    if "The task includes an option with an undefined variable" in error:
+    if "VARIABLE IS NOT DEFINED" in error:
         return "(undefined variable)"
 
     # If no conversion was possible, return the original error
@@ -204,7 +204,7 @@ def decrypt_string(host, var) -> str:
     """Decrypt/print a variable from one or multiple hosts"""
     # Run ansible msg for variable
     # Send return as JSON
-    ansible_command = ["ansible", host, "-m", "debug", "-a", f"msg={{{{ {var} }}}}"]
+    ansible_command = ["ansible", host, "-m", "debug", "-a", f"var={var}"]
     ansible_env = {
         "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
         "ANSIBLE_STDOUT_CALLBACK": "json",
@@ -222,7 +222,7 @@ def decrypt_string(host, var) -> str:
     # Attempt to create a :-separated list of host/values
     output = {}
     for hostname, values in ansible_output.items():
-        output[hostname] = convert_ansible_errors(values["msg"])
+        output[hostname] = convert_ansible_errors(values[var])
 
     return format_data(output)
 
