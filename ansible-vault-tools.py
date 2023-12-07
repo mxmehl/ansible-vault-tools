@@ -11,6 +11,7 @@ import json
 import os
 import subprocess
 import sys
+import getpass
 
 parser = argparse.ArgumentParser(description=__doc__)
 subparsers = parser.add_subparsers(title="commands", dest="command", required=True)
@@ -25,6 +26,8 @@ encrypt_flags.add_argument(
     "--string",
     help="String that shall be encrypted",
     dest="encrypt_string",
+    nargs="?",
+    const="",
 )
 encrypt_flags.add_argument(
     "-f",
@@ -42,10 +45,12 @@ decrypt_flags.add_argument(
     "-H",
     "--host",
     help=(
-        "Host name from Ansible inventory for which you want to get a specific variable."
+        "Host name from Ansible inventory for which you want to get a specific variable. "
         "Also supports 'all'"
     ),
     dest="decrypt_host",
+    nargs="?",
+    const="",
 )
 decrypt_flags.add_argument(
     "-f",
@@ -68,7 +73,7 @@ parser_allvars.add_argument(
     "-H",
     "--host",
     help=(
-        "Host name from Ansible inventory for which you want to get all variables."
+        "Host name from Ansible inventory for which you want to get all variables. "
         "Also supports 'all'"
     ),
     dest="allvars_host",
@@ -234,7 +239,7 @@ def main():
 
     # ENCRYPTION
     if args.command == "encrypt":
-        if args.encrypt_string:
+        if args.encrypt_string is not None:
             password = input("Enter string: ") if not args.encrypt_string else args.encrypt_string
             output = encrypt_string(password)
         elif args.encrypt_file:
@@ -242,7 +247,7 @@ def main():
             output = encrypt_file(filename)
     # DECRYPTION
     elif args.command == "decrypt":
-        if args.decrypt_host:
+        if args.decrypt_host is not None:
             host = input("Enter host: ") if not args.decrypt_host else args.decrypt_host
             var = input("Enter variable: ") if not args.decrypt_var else args.decrypt_var
             output = decrypt_string(host, var)
