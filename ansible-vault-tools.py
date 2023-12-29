@@ -115,7 +115,7 @@ def format_data(data: dict) -> str:
         formatted_strings = [f"{key.ljust(max_key_length)}: {value}" for key, value in data.items()]
     else:
         # If only one host, return the single value
-        formatted_strings = list(data.values())
+        formatted_strings = [f"{value}" for _, value in data.items()]
 
     return "\n".join(formatted_strings)
 
