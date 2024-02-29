@@ -11,7 +11,6 @@ import json
 import os
 import subprocess
 import sys
-import getpass
 
 parser = argparse.ArgumentParser(description=__doc__)
 subparsers = parser.add_subparsers(title="commands", dest="command", required=True)
@@ -160,9 +159,12 @@ def decrypt_string(host, var) -> str:
         "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
         "ANSIBLE_STDOUT_CALLBACK": "json",
     }
-    result = subprocess.run(
-        ansible_command, env=ansible_env, capture_output=True, text=True, check=False
-    )
+    try:
+        result = subprocess.run(
+            ansible_command, env=ansible_env, capture_output=True, text=True, check=True
+        )
+    except subprocess.CalledProcessError as e:
+        sys.exit(f"Decrypting the variable failed: {e.stderr}")
 
     # Parse JSON
     try:
