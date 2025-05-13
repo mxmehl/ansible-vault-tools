@@ -9,6 +9,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -119,6 +120,11 @@ def format_data(data: dict) -> str:
     return "\n".join(formatted_strings)
 
 
+def rewrap_text(text: str) -> str:
+    """Replace lines starting with exactly 8 spaces with 2 spaces"""
+    return re.sub(r"(?m)^ {8}", "", text)
+
+
 def encrypt_string(password: str) -> str:
     """Encrypt string with ansible-vault"""
     result = subprocess.run(
@@ -128,7 +134,7 @@ def encrypt_string(password: str) -> str:
         capture_output=True,
         check=False,
     )
-    return result.stdout.strip()
+    return rewrap_text(result.stdout.strip())
 
 
 def encrypt_file(filename: str) -> str:
