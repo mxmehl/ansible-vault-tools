@@ -10,6 +10,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -125,10 +126,18 @@ def rewrap_text(text: str) -> str:
     return re.sub(r"(?m)^ {8}", "", text)
 
 
+def executable(command: str) -> str:
+    """Return the path to an executable command"""
+    path = shutil.which(command)
+    if not path:
+        sys.exit(f"ERROR: {command} is not installed or not found in PATH.")
+    return path
+
+
 def encrypt_string(password: str) -> str:
     """Encrypt string with ansible-vault"""
     result = subprocess.run(
-        ["ansible-vault", "encrypt_string"],
+        [executable("ansible-vault"), "encrypt_string"],
         input=password,
         text=True,
         capture_output=True,
@@ -144,7 +153,7 @@ def encrypt_file(filename: str) -> str:
         sys.exit(f"ERROR: File '{filename}' does not exist")
 
     encrypted_return = subprocess.run(
-        ["ansible-vault", "encrypt", filename], check=False, capture_output=True
+        [executable("ansible-vault"), "encrypt", filename], check=False, capture_output=True
     )
 
     if encrypted_return.returncode != 0:
@@ -160,7 +169,7 @@ def decrypt_string(host, var) -> str:
     """Decrypt/print a variable from one or multiple hosts"""
     # Run ansible msg for variable
     # Send return as JSON
-    ansible_command = ["ansible", host, "-m", "debug", "-a", f"var={var}"]
+    ansible_command = [executable("ansible"), host, "-m", "debug", "-a", f"var={var}"]
     ansible_env = {
         "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
         "ANSIBLE_STDOUT_CALLBACK": "json",
@@ -171,6 +180,8 @@ def decrypt_string(host, var) -> str:
         )
     except subprocess.CalledProcessError as e:
         sys.exit(f"Decrypting the variable failed: {e.stderr}")
+    except FileNotFoundError:
+        sys.exit(f"ERROR: {executable} is not installed or not found in PATH.")
 
     # Parse JSON
     try:
@@ -193,7 +204,9 @@ def decrypt_file(filename: str) -> str:
         sys.exit(f"ERROR: File '{filename}' does not exist")
 
     decrypted_content = subprocess.run(
-        ["ansible-vault", "decrypt", "--output", "-", filename], check=False, capture_output=True
+        [executable("ansible-vault"), "decrypt", "--output", "-", filename],
+        check=False,
+        capture_output=True,
     )
 
     if decrypted_content.returncode != 0:
@@ -205,7 +218,7 @@ def decrypt_file(filename: str) -> str:
     print(decrypted_content.stdout.decode().strip())
     if ask_for_confirm("Shall I write the encrypted content as seen above to the file?"):
         decrypted_content = subprocess.run(
-            ["ansible-vault", "decrypt", filename], check=True, capture_output=True
+            [executable("ansible-vault"), "decrypt", filename], check=True, capture_output=True
         )
         return f"Decrypted '{filename}' successfully"
 
@@ -216,7 +229,7 @@ def allvars(host: str) -> str:
     """Decrypt/print all variables from one or multiple hosts"""
     # Run ansible var for all host vars as seen from localhost
     # Send return as JSON
-    ansible_command = ["ansible", "localhost", "-m", "debug", "-a", "var=hostvars"]
+    ansible_command = [executable("ansible"), "localhost", "-m", "debug", "-a", "var=hostvars"]
     ansible_env = {
         "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
         "ANSIBLE_STDOUT_CALLBACK": "json",
