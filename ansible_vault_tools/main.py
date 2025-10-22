@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """Encrypt or decrypt using Ansible-vault and Ansible"""
-# SPDX-FileCopyrightText: 2023 Max Mehl <https://mehl.mx>
+# SPDX-FileCopyrightText: 2025 Max Mehl <https://mehl.mx>
 #
 # SPDX-License-Identifier: Apache-2.0
-
-# pylint: disable=invalid-name
 
 import argparse
 import json
@@ -14,12 +12,22 @@ import shutil
 import subprocess
 import sys
 
+from . import __version__
+
 parser = argparse.ArgumentParser(description=__doc__)
-subparsers = parser.add_subparsers(title="commands", dest="command", required=True)
-# Encrypt arguments
+parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
+
+# First-level subcommands
+subparsers = parser.add_subparsers(dest="command", help="Available commands", required=True)
+
+# Common flags, usable for all effective subcommands
+common_flags = argparse.ArgumentParser(add_help=False)  # No automatic help to avoid duplication
+
+# Command: encrypt
 parser_encrypt = subparsers.add_parser(
     "encrypt",
     help="Encrypt a string or file using ansible-vault",
+    parents=[common_flags],
 )
 encrypt_flags = parser_encrypt.add_mutually_exclusive_group(required=True)
 encrypt_flags.add_argument(
@@ -36,10 +44,12 @@ encrypt_flags.add_argument(
     help="File that shall be encrypted",
     dest="encrypt_file",
 )
-# Decrypt arguments
+
+# Command: decrypt
 parser_decrypt = subparsers.add_parser(
     "decrypt",
     help="Decrypt a string or file using ansible-vault",
+    parents=[common_flags],
 )
 decrypt_flags = parser_decrypt.add_mutually_exclusive_group(required=True)
 decrypt_flags.add_argument(
@@ -65,10 +75,12 @@ parser_decrypt.add_argument(
     help="Variable you want to print",
     dest="decrypt_var",
 )
-# All variables
+
+# Command: allvars
 parser_allvars = subparsers.add_parser(
     "allvars",
     help="Print all variables of a host",
+    parents=[common_flags],
 )
 parser_allvars.add_argument(
     "-H",
@@ -253,8 +265,8 @@ def allvars(host: str) -> str:
     return json.dumps(ansible_output, indent=2)
 
 
-def main():
-    """Main function"""
+def cli():
+    """Function when called from command line"""
     args = parser.parse_args()
     output = ""
 
@@ -285,4 +297,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    cli()

@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2025 Max Mehl <https://mehl.mx>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+[project]
+name = "ansible-vault-tools"
+version = "0.1.0"
+description = "Simple library and CLI tool to deal with ansible vaults and encrypted strings"
+authors = [{ name = "Max Mehl", email = "mail@mehl.mx" }]
+license = "Apache-2.0"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.poetry.scripts]
+ansible-vault-tools = "ansible_vault_tools.main:cli"
+
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^4.0.2"
+mypy = "^1.18.2"
+bump-my-version = "^1.2.4"
+black = "^25.9.0"
+isort = "^7.0.0"
+pytest = "^8.4.2"
+
+[project.optional-dependencies]
+# Can be used if you don't have ansible(-vault) installed system-wide, or need a more recent version
+ansible-deps = ["ansible", "ansible-vault"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+# FORMATTING settings
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 100
+
+# MYPY settings
+[tool.mypy]
+files = ["ansible_vault_tools/*.py"]
+disable_error_code = ["import-untyped"]
+
+# Bump-My-Version
+[tool.bumpversion]
+commit = true
+tag = true
+allow_dirty = false
+tag_name = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+regex = true
+search = "^version = \"{current_version}\""
+replace = "version = \"{new_version}\""
