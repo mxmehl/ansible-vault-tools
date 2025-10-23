@@ -42,7 +42,7 @@ line-length = 100
 
 # MYPY settings
 [tool.mypy]
-files = ["ansible_vault_tools/*.py"]
+files = ["ansible_vault_tools/*.py", "tests/*.py"]
 disable_error_code = ["import-untyped"]
 
 # Bump-My-Version
