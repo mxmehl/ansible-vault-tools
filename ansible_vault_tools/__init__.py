@@ -4,6 +4,4 @@
 
 """Initialise importable functions"""
 
-from importlib.metadata import version
-
-__version__ = version("ansible-vault-tools")
+from .main import allvars, decrypt_file, decrypt_string, encrypt_file, encrypt_string

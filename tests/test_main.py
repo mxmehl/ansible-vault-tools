@@ -4,7 +4,7 @@
 
 """Test suite for ansible_vault_tools.main module"""
 
-from ansible_vault_tools.main import convert_ansible_errors
+from ansible_vault_tools._helpers import convert_ansible_errors
 
 
 def test_convert_ansible_errors_undefined_variable():

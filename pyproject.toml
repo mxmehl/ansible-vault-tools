@@ -13,7 +13,7 @@ requires-python = ">=3.11"
 dependencies = []
 
 [tool.poetry.scripts]
-ansible-vault-tools = "ansible_vault_tools.main:cli"
+ansible-vault-tools = "ansible_vault_tools.main:_cli"
 
 
 [tool.poetry.group.dev.dependencies]

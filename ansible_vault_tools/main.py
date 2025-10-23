@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
-"""Encrypt or decrypt using Ansible-vault and Ansible"""
 # SPDX-FileCopyrightText: 2025 Max Mehl <https://mehl.mx>
 #
 # SPDX-License-Identifier: Apache-2.0
 
+"""Encrypt or decrypt using Ansible-vault and Ansible"""
+
 import argparse
 import json
 import os
-import re
-import shutil
 import subprocess
 import sys
+from importlib.metadata import version
 
-from . import __version__
+from ansible_vault_tools._helpers import (
+    ask_for_confirm,
+    convert_ansible_errors,
+    executable,
+    format_data,
+    rewrap_text,
+)
+
+__version__ = version("ansible-vault-tools")
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--version", action="version", version="%(prog)s " + __version__)
@@ -91,59 +99,6 @@ parser_allvars.add_argument(
     ),
     dest="allvars_host",
 )
-
-
-def convert_ansible_errors(error: str) -> str:
-    """Convert typical Ansible errors to more user-friendly messages"""
-    if "VARIABLE IS NOT DEFINED" in error:
-        return "(undefined variable)"
-
-    # If no conversion was possible, return the original error
-    return error
-
-
-def ask_for_confirm(question: str) -> bool:
-    """Ask for confirmation.
-
-    Args:
-        question (str): The question to ask the user.
-
-    Returns:
-        bool: True if the user confirms with 'y', False otherwise.
-    """
-    while True:
-        answer = input(f"{question} [y/n]: ").lower().strip()
-        if answer in ("y", "n"):
-            break
-        print("Invalid input. Please enter 'y' or 'n'.")
-
-    return answer == "y"
-
-
-def format_data(data: dict) -> str:
-    """Format data nicely in columns"""
-    if len(data) > 1:
-        max_key_length = max(len(key) for key in data.keys())
-
-        formatted_strings = [f"{key.ljust(max_key_length)}: {value}" for key, value in data.items()]
-    else:
-        # If only one host, return the single value
-        formatted_strings = [f"{value}" for _, value in data.items()]
-
-    return "\n".join(formatted_strings)
-
-
-def rewrap_text(text: str) -> str:
-    """Replace lines starting with exactly 8 spaces with 2 spaces"""
-    return re.sub(r"(?m)^ {8}", "", text)
-
-
-def executable(command: str) -> str:
-    """Return the path to an executable command"""
-    path = shutil.which(command)
-    if not path:
-        sys.exit(f"ERROR: {command} is not installed or not found in PATH.")
-    return path
 
 
 def encrypt_string(password: str) -> str:
@@ -265,7 +220,7 @@ def allvars(host: str) -> str:
     return json.dumps(ansible_output, indent=2)
 
 
-def cli():
+def _cli():
     """Function when called from command line"""
     args = parser.parse_args()
     output = ""
@@ -297,4 +252,4 @@ def cli():
 
 
 if __name__ == "__main__":
-    cli()
+    _cli()
