@@ -29,7 +29,7 @@ ansible-vault-tools = "ansible_vault_tools.main:_cli"
 dev = [
   "ruff>=0.15.10",
   "ty>=0.0.29",
-  "pytest>=8.4.2,<9",
+  "pytest>=9.0.3,<10",
 ]
 
 [tool.uv]
