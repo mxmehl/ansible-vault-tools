@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.2](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.1...v0.2.2) (2026-04-19)
+
+
+### 📦 CI Improvements
+
+* add release-vulnerability check ([0a25632](https://github.com/mxmehl/ansible-vault-tools/commit/0a2563213a0b7d3f1499b0a1ffc2bca23c1823c6))
+
+
+### ⚙️ Chores
+
+* **deps:** lock file maintenance ([#7](https://github.com/mxmehl/ansible-vault-tools/issues/7)) ([ebecd83](https://github.com/mxmehl/ansible-vault-tools/commit/ebecd8305e8239656bf185138cb0bf4e05f95fd5))
+
 ## [0.2.1](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.0...v0.2.1) (2026-04-19)
 
 
