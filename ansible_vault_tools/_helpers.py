@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-"""Helper functions for Ansible Vault Tools"""
+"""Helper functions for Ansible Vault Tools."""
 
 import re
 import shutil
@@ -10,7 +10,7 @@ import sys
 
 
 def convert_ansible_errors(error: str) -> str:
-    """Convert typical Ansible errors to more user-friendly messages"""
+    """Convert typical Ansible errors to more user-friendly messages."""
     if "VARIABLE IS NOT DEFINED" in error:
         return "(undefined variable)"
 
@@ -37,9 +37,9 @@ def ask_for_confirm(question: str) -> bool:
 
 
 def format_data(data: dict) -> str:
-    """Format data nicely in columns"""
+    """Format data nicely in columns."""
     if len(data) > 1:
-        max_key_length = max(len(key) for key in data.keys())
+        max_key_length = max(len(key) for key in data)
 
         formatted_strings = [f"{key.ljust(max_key_length)}: {value}" for key, value in data.items()]
     else:
@@ -50,12 +50,12 @@ def format_data(data: dict) -> str:
 
 
 def rewrap_text(text: str) -> str:
-    """Replace lines starting with exactly 8 spaces with 2 spaces"""
+    """Replace lines starting with exactly 8 spaces with 2 spaces."""
     return re.sub(r"(?m)^ {8}", "", text)
 
 
 def executable(command: str) -> str:
-    """Return the path to an executable command"""
+    """Return the path to an executable command."""
     path = shutil.which(command)
     if not path:
         sys.exit(f"ERROR: {command} is not installed or not found in PATH.")

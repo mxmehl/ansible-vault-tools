@@ -3,14 +3,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-"""Encrypt or decrypt using Ansible-vault and Ansible"""
+"""Encrypt or decrypt using Ansible-vault and Ansible."""
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from importlib.metadata import version
+from pathlib import Path
 
 from ansible_vault_tools._helpers import (
     ask_for_confirm,
@@ -102,8 +102,8 @@ parser_allvars.add_argument(
 
 
 def encrypt_string(password: str) -> str:
-    """Encrypt string with ansible-vault"""
-    result = subprocess.run(
+    """Encrypt string with ansible-vault."""
+    result = subprocess.run(  # noqa: S603
         [executable("ansible-vault"), "encrypt_string"],
         input=password,
         text=True,
@@ -114,12 +114,11 @@ def encrypt_string(password: str) -> str:
 
 
 def encrypt_file(filename: str) -> str:
-    """Encrypt a file with ansible-vault"""
-
-    if not os.path.exists(filename):
+    """Encrypt a file with ansible-vault."""
+    if not Path(filename).exists():
         sys.exit(f"ERROR: File '{filename}' does not exist")
 
-    encrypted_return = subprocess.run(
+    encrypted_return = subprocess.run(  # noqa: S603
         [executable("ansible-vault"), "encrypt", filename], check=False, capture_output=True
     )
 
@@ -132,8 +131,8 @@ def encrypt_file(filename: str) -> str:
     return f"Encrypted '{filename}' successfully"
 
 
-def decrypt_string(host, var) -> str:
-    """Decrypt/print a variable from one or multiple hosts"""
+def decrypt_string(host: str, var: str) -> str:
+    """Decrypt/print a variable from one or multiple hosts."""
     # Run ansible msg for variable
     # Send return as JSON
     ansible_command = [executable("ansible"), host, "-m", "debug", "-a", f"var={var}"]
@@ -142,7 +141,7 @@ def decrypt_string(host, var) -> str:
         "ANSIBLE_STDOUT_CALLBACK": "json",
     }
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             ansible_command, env=ansible_env, capture_output=True, text=True, check=True
         )
     except subprocess.CalledProcessError as e:
@@ -165,12 +164,11 @@ def decrypt_string(host, var) -> str:
 
 
 def decrypt_file(filename: str) -> str:
-    """Decrypt file with ansible-vault"""
-
-    if not os.path.exists(filename):
+    """Decrypt file with ansible-vault."""
+    if not Path(filename).exists():
         sys.exit(f"ERROR: File '{filename}' does not exist")
 
-    decrypted_content = subprocess.run(
+    decrypted_content = subprocess.run(  # noqa: S603
         [executable("ansible-vault"), "decrypt", "--output", "-", filename],
         check=False,
         capture_output=True,
@@ -184,7 +182,7 @@ def decrypt_file(filename: str) -> str:
 
     print(decrypted_content.stdout.decode().strip())
     if ask_for_confirm("Shall I write the encrypted content as seen above to the file?"):
-        decrypted_content = subprocess.run(
+        decrypted_content = subprocess.run(  # noqa: S603
             [executable("ansible-vault"), "decrypt", filename], check=True, capture_output=True
         )
         return f"Decrypted '{filename}' successfully"
@@ -193,7 +191,7 @@ def decrypt_file(filename: str) -> str:
 
 
 def allvars(host: str) -> str:
-    """Decrypt/print all variables from one or multiple hosts"""
+    """Decrypt/print all variables from one or multiple hosts."""
     # Run ansible var for all host vars as seen from localhost
     # Send return as JSON
     ansible_command = [executable("ansible"), "localhost", "-m", "debug", "-a", "var=hostvars"]
@@ -201,7 +199,7 @@ def allvars(host: str) -> str:
         "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
         "ANSIBLE_STDOUT_CALLBACK": "json",
     }
-    result = subprocess.run(
+    result = subprocess.run(  # noqa: S603
         ansible_command, env=ansible_env, capture_output=True, text=True, check=False
     )
 
@@ -220,8 +218,8 @@ def allvars(host: str) -> str:
     return json.dumps(ansible_output, indent=2)
 
 
-def _cli():
-    """Function when called from command line"""
+def _cli() -> None:
+    """Function when called from command line."""
     args = parser.parse_args()
     output = ""
 
