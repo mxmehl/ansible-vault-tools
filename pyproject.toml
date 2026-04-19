@@ -7,48 +7,75 @@ name = "ansible-vault-tools"
 version = "0.2.0"
 description = "Simple library and CLI tool to deal with ansible vaults and encrypted strings"
 authors = [{ name = "Max Mehl", email = "mail@mehl.mx" }]
-license = "Apache-2.0"
-readme = "README.md"
 requires-python = ">=3.11"
+readme = "README.md"
+license = "Apache-2.0"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
 dependencies = []
 
-[tool.poetry.scripts]
-ansible-vault-tools = "ansible_vault_tools.main:_cli"
-
-
-[tool.poetry.group.dev.dependencies]
-pylint = "^4.0.2"
-mypy = "^1.18.2"
-bump-my-version = "^1.2.4"
-black = "^25.9.0"
-isort = "^7.0.0"
-pytest = "^8.4.2"
-
 [project.optional-dependencies]
-# Can be used if you don't have ansible(-vault) installed system-wide, or need a more recent version
 ansible-deps = ["ansible", "ansible-vault"]
 
+[project.scripts]
+ansible-vault-tools = "ansible_vault_tools.main:_cli"
+
+[dependency-groups]
+dev = [
+  "ruff>=0.15.10",
+  "ty>=0.0.29",
+  "bump-my-version>=1.2.4,<2",
+  "pytest>=8.4.2,<9",
+]
+
+[tool.uv]
+default-groups = "all"
+
+[tool.uv.build-backend]
+module-name = ["ansible_vault_tools"]
+module-root = ""
+
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.11.6,<0.12.0"]
+build-backend = "uv_build"
 
 
-# FORMATTING settings
-[tool.isort]
-profile = "black"
-
-[tool.black]
+# FORMATTING and LINTING settings
+[tool.ruff]
 line-length = 100
 
-# MYPY settings
-[tool.mypy]
-files = ["ansible_vault_tools/*.py", "tests/*.py"]
-disable_error_code = ["import-untyped"]
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "T",
+  "FBT",
+  "LOG015",
+  "COM812",
+  "ERA001",
+  "S310",
+  "D205",
+  "D212",
+  "PTH123",
+]
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = ["S101", "PLR", "PT011", "ANN001"]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# TY settings
+[tool.ty.src]
+include = ["ansible_vault_tools"]
 
 # Bump-My-Version
 [tool.bumpversion]
 commit = true
 tag = true
+sign_tags = true
 allow_dirty = false
 tag_name = "v{new_version}"
 
@@ -57,3 +84,16 @@ filename = "pyproject.toml"
 regex = true
 search = "^version = \"{current_version}\""
 replace = "version = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "uv.lock"
+search = """
+[[package]]
+name = "ansible-vault-tools"
+version = "{current_version}"
+"""
+replace = """
+[[package]]
+name = "ansible-vault-tools"
+version = "{new_version}"
+"""
