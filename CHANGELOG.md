@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.4](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.3...v0.2.4) (2026-06-25)
+
+
+### 🔥 Bug Fixes
+
+* environment issues, adding e2e tests ([#33](https://github.com/mxmehl/ansible-vault-tools/issues/33)) ([27b3b57](https://github.com/mxmehl/ansible-vault-tools/commit/27b3b5736f6a33edbe48a34b172629e2a41db02f))
+
+
+### ⚙️ Chores
+
+* **deps:** update github actions group ([#31](https://github.com/mxmehl/ansible-vault-tools/issues/31)) ([ae436e1](https://github.com/mxmehl/ansible-vault-tools/commit/ae436e100b89bb8d5f6333b2ca64b7a09709791c))
+
 ## [0.2.3](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.2...v0.2.3) (2026-06-22)
 
 
