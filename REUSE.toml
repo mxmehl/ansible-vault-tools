@@ -4,3 +4,14 @@ version = 1
 path = ["release-please-config.json", ".release-please-manifest.json", "CHANGELOG.md"]
 SPDX-FileCopyrightText = "2025 Max Mehl <https://mehl.mx>"
 SPDX-License-Identifier = "Apache-2.0"
+
+# Generated throwaway test material for the e2e fixture; these formats can't
+# carry inline SPDX headers. Regenerate with tests/e2e_fixture/regenerate.sh.
+[[annotations]]
+path = [
+  "tests/e2e_fixture/private-key.asc",
+  "tests/e2e_fixture/vaultpw.gpg",
+  "tests/e2e_fixture/host_vars/testhost.yml",
+]
+SPDX-FileCopyrightText = "2025 Max Mehl <https://mehl.mx>"
+SPDX-License-Identifier = "Apache-2.0"
