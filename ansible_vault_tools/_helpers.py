@@ -4,9 +4,24 @@
 
 """Helper functions for Ansible Vault Tools."""
 
+import os
 import re
 import shutil
 import sys
+
+
+def ansible_json_env() -> dict[str, str]:
+    """Return the current environment extended with Ansible JSON-output settings.
+
+    The existing environment must be preserved (not replaced): Ansible needs
+    PATH to run inventory scripts and the vault password script, plus HOME and
+    other variables those scripts rely on (e.g. gpg-agent, the right Python).
+    """
+    return {
+        **os.environ,
+        "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
+        "ANSIBLE_STDOUT_CALLBACK": "json",
+    }
 
 
 def convert_ansible_errors(error: str) -> str:

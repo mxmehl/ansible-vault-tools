@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2025 Max Mehl <https://mehl.mx>
+# SPDX-License-Identifier: Apache-2.0
+
+# Runtime keyring created by setup-gpg.sh (never commit private key material
+# that has actually been imported into a live agent).
+gnupg/
