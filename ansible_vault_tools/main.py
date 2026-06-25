@@ -13,6 +13,7 @@ from importlib.metadata import version
 from pathlib import Path
 
 from ansible_vault_tools._helpers import (
+    ansible_json_env,
     ask_for_confirm,
     convert_ansible_errors,
     executable,
@@ -136,10 +137,7 @@ def decrypt_string(host: str, var: str) -> str:
     # Run ansible msg for variable
     # Send return as JSON
     ansible_command = [executable("ansible"), host, "-m", "debug", "-a", f"var={var}"]
-    ansible_env = {
-        "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
-        "ANSIBLE_STDOUT_CALLBACK": "json",
-    }
+    ansible_env = ansible_json_env()
     try:
         result = subprocess.run(  # noqa: S603
             ansible_command, env=ansible_env, capture_output=True, text=True, check=True
@@ -195,10 +193,7 @@ def allvars(host: str) -> str:
     # Run ansible var for all host vars as seen from localhost
     # Send return as JSON
     ansible_command = [executable("ansible"), "localhost", "-m", "debug", "-a", "var=hostvars"]
-    ansible_env = {
-        "ANSIBLE_LOAD_CALLBACK_PLUGINS": "1",
-        "ANSIBLE_STDOUT_CALLBACK": "json",
-    }
+    ansible_env = ansible_json_env()
     result = subprocess.run(  # noqa: S603
         ansible_command, env=ansible_env, capture_output=True, text=True, check=False
     )

@@ -4,7 +4,24 @@
 
 """Test suite for ansible_vault_tools.main module."""
 
-from ansible_vault_tools._helpers import convert_ansible_errors
+from ansible_vault_tools._helpers import ansible_json_env, convert_ansible_errors
+
+
+def test_ansible_json_env_preserves_environment(monkeypatch) -> None:
+    """Regression: the env must be extended, not replaced.
+
+    Replacing os.environ wiped PATH/HOME, breaking inventory scripts and the
+    vault password script, which surfaced as a misleading 'Host not found'.
+    """
+    monkeypatch.setenv("PATH", "/sentinel/bin")
+    monkeypatch.setenv("HOME", "/sentinel/home")
+
+    env = ansible_json_env()
+
+    assert env["PATH"] == "/sentinel/bin"
+    assert env["HOME"] == "/sentinel/home"
+    assert env["ANSIBLE_LOAD_CALLBACK_PLUGINS"] == "1"
+    assert env["ANSIBLE_STDOUT_CALLBACK"] == "json"
 
 
 def test_convert_ansible_errors_undefined_variable() -> None:
