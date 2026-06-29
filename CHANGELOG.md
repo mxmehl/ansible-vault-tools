@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.5](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.4...v0.2.5) (2026-06-29)
+
+
+### ⚙️ Chores
+
+* **deps:** lock file maintenance ([#36](https://github.com/mxmehl/ansible-vault-tools/issues/36)) ([ca02e3c](https://github.com/mxmehl/ansible-vault-tools/commit/ca02e3c1cd1d1a13a016f59452007a0212816084))
+* **deps:** update actions/setup-python action to v6.3.0 ([#34](https://github.com/mxmehl/ansible-vault-tools/issues/34)) ([4423770](https://github.com/mxmehl/ansible-vault-tools/commit/4423770409a3a6869d0fbe863f29aec43a0ec353))
+
 ## [0.2.4](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.3...v0.2.4) (2026-06-25)
 
 
