@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.5](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.4...v0.2.5) (2026-07-15)
+
+
+### ⚙️ Chores
+
+* add license-files, repository URL, and changelog URL to pyproject.toml ([#42](https://github.com/mxmehl/ansible-vault-tools/issues/42)) ([2ddf52e](https://github.com/mxmehl/ansible-vault-tools/commit/2ddf52e582e6d757ba160c7072961e9348b8c50c))
+* **deps:** lock file maintenance ([#36](https://github.com/mxmehl/ansible-vault-tools/issues/36)) ([ca02e3c](https://github.com/mxmehl/ansible-vault-tools/commit/ca02e3c1cd1d1a13a016f59452007a0212816084))
+* **deps:** lock file maintenance ([#37](https://github.com/mxmehl/ansible-vault-tools/issues/37)) ([d0c90b9](https://github.com/mxmehl/ansible-vault-tools/commit/d0c90b9d4d30a16ebcdd94be70c5c46ff63abd53))
+* **deps:** lock file maintenance ([#41](https://github.com/mxmehl/ansible-vault-tools/issues/41)) ([8d432a6](https://github.com/mxmehl/ansible-vault-tools/commit/8d432a65f9c59cc863a3511ce8daf452a12cc4df))
+* **deps:** update actions/setup-python action to v6.3.0 ([#34](https://github.com/mxmehl/ansible-vault-tools/issues/34)) ([4423770](https://github.com/mxmehl/ansible-vault-tools/commit/4423770409a3a6869d0fbe863f29aec43a0ec353))
+* **deps:** update astral-sh/setup-uv action to v8.3.0 ([#38](https://github.com/mxmehl/ansible-vault-tools/issues/38)) ([318a901](https://github.com/mxmehl/ansible-vault-tools/commit/318a9011f7dd2987ac9cf123ee2a7e09ea346cba))
+* **deps:** update astral-sh/setup-uv action to v8.3.1 ([#39](https://github.com/mxmehl/ansible-vault-tools/issues/39)) ([5dc2f8e](https://github.com/mxmehl/ansible-vault-tools/commit/5dc2f8e38e9f2c93a12e978842eaf2115b210105))
+* **deps:** update astral-sh/setup-uv action to v8.3.2 ([#40](https://github.com/mxmehl/ansible-vault-tools/issues/40)) ([402e0bf](https://github.com/mxmehl/ansible-vault-tools/commit/402e0bf2b63e9a5999d599c3179fbf697081da0e))
+
 ## [0.2.4](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.3...v0.2.4) (2026-06-25)
 
 
