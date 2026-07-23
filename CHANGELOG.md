@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.6](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.5...v0.2.6) (2026-07-23)
+
+
+### ⚙️ Chores
+
+* **deps:** update actions/checkout action to v7.0.1 ([#47](https://github.com/mxmehl/ansible-vault-tools/issues/47)) ([f2d27ef](https://github.com/mxmehl/ansible-vault-tools/commit/f2d27efbdb6b62c4ea3c554c2492abeeeadb4378))
+* **deps:** update actions/setup-python action to v7 ([#46](https://github.com/mxmehl/ansible-vault-tools/issues/46)) ([24c6bd5](https://github.com/mxmehl/ansible-vault-tools/commit/24c6bd572baa7112cb6ba3300b0493547354b12b))
+* **deps:** update pypa/gh-action-pypi-publish action to v1.14.1 ([#45](https://github.com/mxmehl/ansible-vault-tools/issues/45)) ([f9a1f33](https://github.com/mxmehl/ansible-vault-tools/commit/f9a1f33cabb4c0915407dbef4f0ebf453f3115e9))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.0 ([#43](https://github.com/mxmehl/ansible-vault-tools/issues/43)) ([87ac726](https://github.com/mxmehl/ansible-vault-tools/commit/87ac7261b29f8953bf4f1dac8aa8f1392c57c22f))
+
 ## [0.2.5](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.4...v0.2.5) (2026-07-15)
 
 
