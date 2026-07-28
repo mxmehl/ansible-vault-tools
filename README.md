@@ -80,7 +80,13 @@ ansible-vault-tools allvars --host all
 The individual functions can also be imported directly:
 
 ```python
-from ansible_vault_tools.main import encrypt_string, encrypt_file, decrypt_string, decrypt_file, allvars
+from ansible_vault_tools.main import (
+    encrypt_string,
+    encrypt_file,
+    decrypt_string,
+    decrypt_file,
+    allvars,
+)
 ```
 
 | Function | Description |
