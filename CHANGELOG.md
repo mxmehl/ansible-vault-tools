@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.6...v0.2.7) (2026-08-17)
+
+
+### ⚙️ Chores
+
+* **deps:** lock file maintenance ([#59](https://github.com/mxmehl/ansible-vault-tools/issues/59)) ([6d6283b](https://github.com/mxmehl/ansible-vault-tools/commit/6d6283bdb3d6501c8fa31d346921deaaff61b1e4))
+
 ## [0.2.6](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.5...v0.2.6) (2026-08-10)
 
 
