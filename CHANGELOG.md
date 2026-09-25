@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.7](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.6...v0.2.7) (2026-09-25)
+
+
+### ⚙️ Chores
+
+* **deps:** lock file maintenance ([#59](https://github.com/mxmehl/ansible-vault-tools/issues/59)) ([6d6283b](https://github.com/mxmehl/ansible-vault-tools/commit/6d6283bdb3d6501c8fa31d346921deaaff61b1e4))
+* **deps:** lock file maintenance ([#61](https://github.com/mxmehl/ansible-vault-tools/issues/61)) ([3fbd51b](https://github.com/mxmehl/ansible-vault-tools/commit/3fbd51bab3a2383a92c5198a185ef125f4715be2))
+* **deps:** lock file maintenance ([#62](https://github.com/mxmehl/ansible-vault-tools/issues/62)) ([17a108e](https://github.com/mxmehl/ansible-vault-tools/commit/17a108ea163ec4a8c9e2a849b7f732a1b71cb0d3))
+* **deps:** lock file maintenance ([#64](https://github.com/mxmehl/ansible-vault-tools/issues/64)) ([bb544f6](https://github.com/mxmehl/ansible-vault-tools/commit/bb544f6b473e50652b4d95f7def56fbe4e532869))
+* **deps:** lock file maintenance ([#67](https://github.com/mxmehl/ansible-vault-tools/issues/67)) ([12a5619](https://github.com/mxmehl/ansible-vault-tools/commit/12a56199090f8a7c27612cb044db168ba0799f74))
+* **deps:** lock file maintenance ([#69](https://github.com/mxmehl/ansible-vault-tools/issues/69)) ([03eab0b](https://github.com/mxmehl/ansible-vault-tools/commit/03eab0b428db0a2120b9102d0d5d78ace8b2ea25))
+* **deps:** update astral-sh/setup-uv action to v10 ([#58](https://github.com/mxmehl/ansible-vault-tools/issues/58)) ([141122f](https://github.com/mxmehl/ansible-vault-tools/commit/141122f1d3a62891ce176bd0762dbfe136388c20))
+* **deps:** update astral-sh/setup-uv action to v10.1.0 ([#66](https://github.com/mxmehl/ansible-vault-tools/issues/66)) ([5c830aa](https://github.com/mxmehl/ansible-vault-tools/commit/5c830aaa6359e6dfe9777373ae914830f1827d81))
+* **deps:** update astral-sh/setup-uv action to v10.2.0 ([#71](https://github.com/mxmehl/ansible-vault-tools/issues/71)) ([620bb4a](https://github.com/mxmehl/ansible-vault-tools/commit/620bb4ad3ae6caf1873a372c935398394486d36e))
+* **deps:** update dependency ubuntu to v26 ([#68](https://github.com/mxmehl/ansible-vault-tools/issues/68)) ([8bdaa45](https://github.com/mxmehl/ansible-vault-tools/commit/8bdaa451a2d2c94d6f48158125abfc3f72cb4472))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.3 ([#63](https://github.com/mxmehl/ansible-vault-tools/issues/63)) ([113361e](https://github.com/mxmehl/ansible-vault-tools/commit/113361e80f180eaa2e60e53e5747581e6f844b75))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.4 ([#65](https://github.com/mxmehl/ansible-vault-tools/issues/65)) ([6b7d63d](https://github.com/mxmehl/ansible-vault-tools/commit/6b7d63d4e5971abedabbddbb4747bf76647f8e6a))
+
 ## [0.2.6](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.5...v0.2.6) (2026-08-10)
 
 
