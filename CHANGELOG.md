@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.8](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.7...v0.2.8) (2026-10-16)
+
+
+### ⚙️ Chores
+
+* **deps:** update actions/create-github-app-token action to v3.3.0 ([#79](https://github.com/mxmehl/ansible-vault-tools/issues/79)) ([6dc2f3e](https://github.com/mxmehl/ansible-vault-tools/commit/6dc2f3e9f69c36a6637e4bc3c10eca2b6b06c449))
+* **deps:** update dependency python to 3.15 ([#77](https://github.com/mxmehl/ansible-vault-tools/issues/77)) ([02387ed](https://github.com/mxmehl/ansible-vault-tools/commit/02387ed44d351bb90b4a9fe9199b76ed913a14e6))
+
 ## [0.2.7](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.6...v0.2.7) (2026-10-13)
 
 
