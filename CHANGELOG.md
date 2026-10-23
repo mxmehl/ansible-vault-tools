@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.8](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.7...v0.2.8) (2026-10-23)
+
+
+### ⚙️ Chores
+
+* **deps:** lock file maintenance ([#82](https://github.com/mxmehl/ansible-vault-tools/issues/82)) ([c14392f](https://github.com/mxmehl/ansible-vault-tools/commit/c14392fbc4d42cf175f7a8982a29d5e91f1efe02))
+* **deps:** update actions/create-github-app-token action to v3.3.0 ([#79](https://github.com/mxmehl/ansible-vault-tools/issues/79)) ([6dc2f3e](https://github.com/mxmehl/ansible-vault-tools/commit/6dc2f3e9f69c36a6637e4bc3c10eca2b6b06c449))
+* **deps:** update dependency python to 3.15 ([#77](https://github.com/mxmehl/ansible-vault-tools/issues/77)) ([02387ed](https://github.com/mxmehl/ansible-vault-tools/commit/02387ed44d351bb90b4a9fe9199b76ed913a14e6))
+* **deps:** update pypa/gh-action-pypi-publish action to v1.14.3 ([#83](https://github.com/mxmehl/ansible-vault-tools/issues/83)) ([4efa092](https://github.com/mxmehl/ansible-vault-tools/commit/4efa0926250a265d576c0e92d0b0141a0ea2aad3))
+* **deps:** update zizmorcore/zizmor-action action to v0.7.0 ([#80](https://github.com/mxmehl/ansible-vault-tools/issues/80)) ([6990731](https://github.com/mxmehl/ansible-vault-tools/commit/69907319e1d85b3c3751cc43fa91451c8bfaaf81))
+* **deps:** update zizmorcore/zizmor-action action to v0.7.1 ([#81](https://github.com/mxmehl/ansible-vault-tools/issues/81)) ([4833829](https://github.com/mxmehl/ansible-vault-tools/commit/4833829b26b5e2bbfc61c3868935707eb8e8c3ca))
+
 ## [0.2.7](https://github.com/mxmehl/ansible-vault-tools/compare/v0.2.6...v0.2.7) (2026-10-13)
 
 
